@@ -48,13 +48,19 @@ class Collection(models.Model):
     description = models.TextField()
     last_updated = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
 
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = 'PENDING'
     PAYMENT_STATUS_COMPLETE = 'COMPLETED'
     PAYMENT_STATUS_FAIL = 'FAILED'
 
-    PAMENT_STATUS = [
+    PAYMENT_STATUS = [
         (PAYMENT_STATUS_PENDING, 'Pending'),
         (PAYMENT_STATUS_COMPLETE, 'Completed'),
         (PAYMENT_STATUS_FAIL, 'Failed'),
@@ -62,7 +68,7 @@ class Order(models.Model):
 
     placed_at = models.DateTimeField(auto_now_add=True)
     payment_status = models.CharField(
-        max_length=255, choices=PAMENT_STATUS, default=PAYMENT_STATUS_PENDING)
+        max_length=255, choices=PAYMENT_STATUS, default=PAYMENT_STATUS_PENDING)
     customer = models.ForeignKey(to='Customer', on_delete=models.PROTECT)
 
 
