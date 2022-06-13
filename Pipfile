@@ -9,6 +9,7 @@ psycopg2 = "*"
 django-debug-toolbar = "*"
 autopep8 = "*"
 djangorestframework = "*"
+factory-boy = "*"
 
 [dev-packages]
 

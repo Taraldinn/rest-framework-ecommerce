@@ -87,14 +87,13 @@ WSGI_APPLICATION = 'storefront.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'storefront',
+        'NAME': 'ecommerce',
         'USER': 'postgres',
-        'PASSWORD': '6251',
+        'PASSWORD': 'tara',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
