@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'tags',
     'store',
     'rest_framework',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -137,5 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
-    'COERCE_DECIMAL_TO_STRING': False,
+    'COERCE_DECIMAL_TO_STRING': False
+
+
 }

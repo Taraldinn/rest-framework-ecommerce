@@ -10,6 +10,8 @@ django-debug-toolbar = "*"
 autopep8 = "*"
 djangorestframework = "*"
 factory-boy = "*"
+drf-nested-routers = "*"
+django-filter = "*"
 
 [dev-packages]
 

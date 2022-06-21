@@ -1,17 +1,26 @@
+import uuid
+from uuid import uuid4
+
 from django.db import models
 
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField()
     slug = models.CharField(max_length=255)
+    description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.PositiveIntegerField()
+    last_updated = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(
         to='Collection', on_delete=models.SET_NULL, blank=True, null=True)
-    last_updated = models.DateTimeField(auto_now=True)
     promotions = models.ManyToManyField(
         to='Promotion', blank=True, related_name='products')
+
+    def __str__(self) -> str:
+        return self.title
+
+    class Meta:
+        ordering = ['title']
 
 
 class Address(models.Model):
@@ -41,6 +50,12 @@ class Customer(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     membership = models.CharField(
         choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_BRONZE, max_length=10)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        ordering = ['first_name', 'last_name']
 
 
 class Collection(models.Model):
@@ -80,15 +95,17 @@ class OrderItem(models.Model):
 
 
 class Cart(models.Model):
-    customer = models.ForeignKey(to='Customer', on_delete=models.PROTECT)
-    last_updated = models.DateTimeField(auto_now=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(to='Cart', on_delete=models.CASCADE)
+    cart = models.ForeignKey(to='Cart', on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(to='Product', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = [['cart', 'product']]
 
 
 class Promotion(models.Model):
@@ -101,26 +118,3 @@ class Review(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateField(auto_now_add=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

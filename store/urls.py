@@ -1,10 +1,33 @@
-from django.urls import path, include
-from rest_framework.routers import SimpleRouter, DefaultRouter
 from . import views
-from pprint import pprint
-router = DefaultRouter()
-router.register('products', views.ProductViewSet)
-router.register('collection', views.CollectionViewSet)
+from rest_framework_nested import routers
 
-urlpatterns = router.urls
+
+router = routers.DefaultRouter()
+router.register('products', views.ProductViewSet, basename='products')
+router.register('collection', views.CollectionViewSet)
+router.register('carts', views.CartViewSet)
+products_router = routers.NestedDefaultRouter(router, 'products', lookup='product')
+products_router.register('reviews', views.ReviewViewSet, basename='products-reviews')
+
+urlpatterns = router.urls + products_router.urls
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
